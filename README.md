@@ -18,10 +18,10 @@ Extending credit limit increases without risk targeting leads to heavy default l
 
 This project implements a multi-cycle decision engine that balances revenue, default risk, and portfolio capital capacity:
 
-* **Portfolio Net Present Value:** **+$1,114,736** ($37.16 per customer).
+* **Portfolio Net Present Value:** **+$1,084,533** ($36.15 per customer).
 * **Capital Efficiency:** **100%** utilization of the $24.77M capital cap with zero budget breaches.
-* **Controlled Credit Risk:** Lowers the default rate per accepted increase to **4.99%** (compared to 6.05% under blanket approvals).
-* **+87% Lift:** Near double the net profit of a conservative Prime-Only policy ($595K).
+* **Controlled Credit Risk:** Lowers the default rate per accepted increase to **4.79%** (compared to 5.66% under blanket approvals).
+* **+111% Lift:** More than double the net profit of a conservative Prime-Only policy ($513K).
 
 ---
 
@@ -30,15 +30,15 @@ This project implements a multi-cycle decision engine that balances revenue, def
 | Strategy | Portfolio NPV | Gross Revenue | Credit Losses | Capital Cap Usage | Cap Status | Default Rate / Accepted |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **No Increase** | $0 | $0 | $0 | 0.0% | Compliant | N/A |
-| **Prime Only** | $594,911 | $692,677 | $97,767 | 51.9% | Compliant | 1.5% |
-| **Offer All** | $1,066,904 | $2,400,604 | $1,333,700 | 178.4% | **Breached (+78%)** | 6.1% |
-| **Optimal Policy** | **$1,114,736** | **$1,645,996** | **$531,260** | **100.0%** | **Compliant** | **5.0%** |
-| *Tiered Step Sizing* | *$1,159,294* | *$1,539,925* | *$380,631* | *100.0%* | *Compliant* | *4.9%* |
+| **Prime Only** | $513,224 | $597,721 | $84,497 | 44.8% | Compliant | 1.5% |
+| **Offer All** | $1,043,611 | $2,179,254 | $1,135,643 | 162.1% | **Breached (+62%)** | 5.7% |
+| **Optimal Policy** | **$1,084,533** | **$1,611,601** | **$527,068** | **100.0%** | **Compliant** | **4.8%** |
+| *Tiered Step Sizing* | *$1,144,109* | *$1,537,865* | *$393,756* | *100.0%* | *Compliant* | *4.7%* |
 
 ### Key Strategy Insights
 
-1. **The Blanket Approval Pitfall:** Offering credit increases to every customer generates high gross revenue ($2.40M), but severe defaults on large, lower-tier loans consume over $1.33M in credit losses while exceeding the capital budget by 78%.
-2. **The Ultra-Conservative Flaw:** Limiting offers strictly to prime customers achieves low defaults (1.5%), but leaves 48% of available lending capacity unused, forfeiting over $519,000 in net profit.
+1. **The Blanket Approval Pitfall:** Offering credit increases to every customer generates high gross revenue ($2.18M), but severe defaults on large, lower-tier loans consume over $1.13M in credit losses while exceeding the capital budget by 62%.
+2. **The Ultra-Conservative Flaw:** Limiting offers strictly to prime customers achieves low defaults (1.5%), but wastes 55% of available lending capacity, forfeiting over $570,000 in net profit.
 3. **The Optimal Policy:** Offers are segmented by both risk tier and account loan size:
    * **Prime Accounts:** Eligible for increases across all loan sizes ($500 to $5,000).
    * **Near-Prime Accounts:** Fully eligible up to $3,500; selectively offered between $3,500 and $4,000; cut off above $4,000.
