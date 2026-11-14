@@ -50,7 +50,7 @@ This project implements a multi-cycle decision engine that balances revenue, def
 
 ![Credit Limit Optimization Dashboard](figures/r_dashboard.png)
 
-*The dashboard displays the strategy comparisons, loan-size cutoff policy rules, capital allocation curves, 1,000-run simulation distributions, sensitivity stress tests, and unit break-even recovery economics.*
+*The dashboard combines all 11 diagnostics: historical uptake, loan size by tier, strategy rankings, capital-cap cost, capital efficient frontier, offers by cycle, tier-by-tier eligibility, 1,000-run simulation distribution, credit-assumption sensitivity, behaviour tornado, and unit break-even default rates.*
 
 ---
 
@@ -96,19 +96,25 @@ This project implements a multi-cycle decision engine that balances revenue, def
 │   ├── loan_limit_increases.csv        # 30,000 customer portfolio records
 │   └── loan_limit_increases_10k.csv    # 10,000 record test sample
 ├── figures/
-│   ├── r_dashboard.png                 # 6-panel strategy dashboard
-│   ├── r_01_strategy_npv.png           # Strategy NPV comparison chart
-│   ├── r_02_policy_map.png             # Offer decision rules across loan sizes
-│   ├── r_03_frontier.png               # Capital utilization vs. net return curve
-│   ├── r_04_monte_carlo.png            # Simulation distribution (1,000 runs)
-│   ├── r_05_sensitivity.png            # Stress grid across default & recovery rates
-│   └── r_06_breakeven.png              # Unit economics break-even analysis
+│   ├── r_dashboard.png                 # 11-panel executive dashboard
+│   ├── r_01_uptake.png                 # 2023 historical increase counts by tier
+│   ├── r_02_loan_by_tier.png           # Initial loan size distributions by tier
+│   ├── r_03_strategy_rank.png          # Strategy NPV ranking across macro scenarios
+│   ├── r_04_cap_cost.png               # Value cost of the 30% capital cap
+│   ├── r_05_frontier.png               # Capital utilization vs. portfolio NPV frontier
+│   ├── r_06_policy_by_tier.png         # Offer share by loan size and risk tier
+│   ├── r_07_offers_by_epoch.png        # Offer share across the 6 decision cycles
+│   ├── r_08_monte_carlo.png            # 1,000-run simulation vs. exact NPV
+│   ├── r_09_sensitivity.png            # Credit assumption sensitivity grid
+│   ├── r_10_behaviour_tornado.png      # Behavioral sensitivity tornado chart
+│   └── r_11_breakeven.png              # Break-even default rate by tier and loan size
 ├── outputs/
 │   ├── strategy_results.csv            # Summary metrics across all tested strategies
 │   ├── validation.csv                  # Analytical vs. simulation verification table
 │   ├── sensitivity.csv                 # Scenario stress testing results
 │   └── policy_summary_by_tier_loan.csv # Granular offer allocation by loan bucket
-├── loan_limit_optimization.ipynb       # Reproducible R analysis notebook
+├── loan-limit-optimization.R           # Source R script (percent-format cells)
+├── loan_limit_optimization.ipynb       # Synced R analysis notebook
 └── README.md
 ```
 
@@ -120,12 +126,17 @@ This project implements a multi-cycle decision engine that balances revenue, def
 
 * **R (>= 4.2)**
 * **Jupyter Notebook** with the [Ark R kernel](https://github.com/posit-dev/ark) or `IRkernel`
-* R packages: `tidyverse`, `scales`, `gridExtra`, `matrixStats`, `knitr`
+* R packages: `tidyverse`, `yardstick`, `gt`, `glue`, `scales`, `patchwork`, `ggdist`, `ggh4x`, `ggtext`, `ggrepel`, `matrixStats`, and `davidsjoberg/ggbump` (GitHub).
 
 To install the required R packages:
 
 ```r
-install.packages(c("tidyverse", "scales", "gridExtra", "matrixStats", "knitr"))
+install.packages(c(
+  "tidyverse", "yardstick", "gt", "glue", "scales",
+  "patchwork", "ggdist", "ggh4x", "ggtext", "ggrepel",
+  "matrixStats", "remotes"
+))
+remotes::install_github("davidsjoberg/ggbump")
 ```
 
 ### Running the Notebook
