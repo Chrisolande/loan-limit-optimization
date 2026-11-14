@@ -1,39 +1,48 @@
 # Credit Limit Increase Optimization
 
-An end-to-end credit risk and limit strategy framework for consumer lending portfolios. This project solves the problem of how to systematically allocate loan limit increase offers across 30,000 borrower accounts to maximize portfolio Net Present Value (NPV) while strictly adhering to capital exposure limits and managing default risk.
+<p align="left">
+  <img src="https://img.shields.io/badge/Language-R%20%3E%3D%204.2-276DC3?logo=r&logoColor=white" alt="R" />
+  <img src="https://img.shields.io/badge/Ecosystem-Tidyverse-1A568C?logo=rstudio&logoColor=white" alt="Tidyverse" />
+  <img src="https://img.shields.io/badge/Environment-Jupyter%20%7C%20Posit%20Ark-FF7F00?logo=jupyter&logoColor=white" alt="Ark" />
+  <img src="https://img.shields.io/badge/Domain-Fintech%20%26%20Credit%20Risk-008080" alt="Fintech" />
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License" />
+</p>
+
+An end-to-end credit risk and limit strategy engine for consumer lending portfolios. This repository implements a data-driven decision system to optimize credit line increase offers across 30,000 customer accounts over a 1-year horizon—maximizing net revenue while adhering to portfolio capital limits and controlling for default risk.
 
 ---
 
-## Executive Summary
+## Executive Overview
 
-Extending credit limit increases without risk targeting either triggers excessive default losses or breaches portfolio capital constraints. Conversely, lending strictly to prime borrowers leaves substantial capital idle and halves potential revenue.
+Extending credit limit increases without risk targeting leads to heavy default losses or capital breaches. Conversely, lending strictly to prime borrowers leaves substantial lending capacity unused and leaves revenue on the table.
 
-By framing credit line management as a multi-period decision problem under a portfolio capital cap, this framework derives an optimal, data-driven targeting policy:
+This project implements a multi-cycle decision engine that balances revenue, default risk, and portfolio capital capacity:
 
-* **+$1,084,533 Portfolio NPV** ($36.15 per customer) over a 1-year horizon.
-* **100% Capital Utilization** without exceeding the 30% portfolio exposure cap ($24.77M).
-* **Controlled Default Rate:** 4.79% per accepted increase (down from 5.7% under blanket offers).
-* **+111% Lift over Conservative Strategy:** More than double the net profit of a "Prime Only" strategy ($513K).
+* **Portfolio Net Present Value:** **+$1,084,533** ($36.15 per customer).
+* **Capital Efficiency:** **100%** utilization of the $24.77M capital cap with zero budget breaches.
+* **Controlled Credit Risk:** Lowers the default rate per accepted increase to **4.79%** (compared to 5.70% under blanket approvals).
+* **Over +110% Lift:** Generates more than double the net profit of a conservative Prime-Only policy ($513K).
 
 ---
 
-## Strategy Comparison & Portfolio Impact
+## Strategy Comparison & Empirical Results
 
-| Strategy | Portfolio NPV | Gross Revenue | Expected Credit Loss | Capital Cap Utilization | Status | Default / Accepted |
-| :--- | :---: | :---: | :---: | :---: | :---: |
+| Strategy | Portfolio NPV | Gross Revenue | Credit Losses | Capital Cap Usage | Cap Status | Default Rate / Accepted |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | **No Increase** | $0 | $0 | $0 | 0.0% | Compliant | — |
 | **Prime Only** | $513,224 | $597,721 | $84,497 | 44.8% | Compliant | 1.5% |
 | **Offer All** | $1,043,611 | $2,179,254 | $1,135,643 | 162.1% | **Breached (+62%)** | 5.7% |
 | **Optimal Policy** | **$1,084,533** | **$1,611,601** | **$527,068** | **100.0%** | **Compliant** | **4.8%** |
 | *Tiered Step Sizing* | *$1,144,109* | *$1,537,865* | *$393,756* | *100.0%* | *Compliant* | *4.7%* |
 
-### Why Simple Heuristics Fail
-1. **The "Offer All" Trap:** Offering increases to all eligible borrowers appears to generate high gross revenue ($2.18M), but severe defaults on large, high-risk loans wipe out over $1.13M in credit losses while blowing through the capital cap by 62%.
-2. **The "Prime Only" Opportunity Cost:** A purely conservative strategy avoids credit losses but wastes 55% of the allowable lending capacity, leaving over $570,000 in net value on the table.
-3. **The Optimal Balance:** Offers are segmented by both risk tier and loan balance:
-   * **Prime Accounts:** Eligible for increases across all loan sizes ($500 – $5,000).
-   * **Near-Prime Accounts:** Fully eligible up to $3,500; selectively offered between $3,500 – $4,000; capped above $4,000.
-   * **Sub-Prime Accounts:** Capped at $2,500, capturing profitable small-ticket volume while shielding the balance sheet from large loss severity.
+### Key Strategy Insights
+
+1. **The Blanket Approval Pitfall:** Offering credit increases to every customer generates high gross revenue ($2.18M), but severe defaults on large, lower-tier loans consume over $1.13M in credit losses while exceeding the capital budget by 62%.
+2. **The Ultra-Conservative Flaw:** Limiting offers strictly to prime customers achieves low defaults (1.5%), but wastes 55% of available lending capacity, forfeiting over $570,000 in net profit.
+3. **The Optimal Policy:** Offers are segmented by both risk tier and account loan size:
+   * **Prime Accounts:** Eligible for increases across all loan sizes ($500 to $5,000).
+   * **Near-Prime Accounts:** Fully eligible up to $3,500; selectively offered between $3,500 and $4,000; cut off above $4,000.
+   * **Sub-Prime Accounts:** Offered only on loan sizes up to $2,500, capturing profitable small-ticket revenue while protecting against large loss exposure.
 
 ---
 
@@ -41,17 +50,42 @@ By framing credit line management as a multi-period decision problem under a por
 
 ![Credit Limit Optimization Dashboard](figures/r_dashboard.png)
 
-*The dashboard highlights (top-to-bottom, left-to-right): Strategy NPV comparisons, loan-size cutoff policy map, risk-return capital frontiers, 1,000-iteration Monte Carlo distribution, sensitivity surface, and break-even recovery economics.*
+*The dashboard displays the strategy comparisons, loan-size cutoff policy rules, risk-return capital frontiers, 1,000-run simulation distributions, sensitivity stress tests, and unit break-even recovery economics.*
 
 ---
 
-## Key Features
+## Core System Architecture
 
-* **Dynamic Multi-Period Decision Engine:** Models customer repayment performance, limit acceptance rates, and tier transitions across 60-day review cycles.
-* **Capital Constraint Balancing:** Automatically prices the opportunity cost of capital to find the exact boundary where incremental exposure hits the portfolio budget.
-* **Macroeconomic Stress Testing:** Evaluates policy performance under baseline, benign, and stress conditions (elevated unemployment and interest rates), showing how offer volumes automatically contract to protect capital.
-* **Monte Carlo Validation:** Validates expected outcomes across 1,000 simulation runs ($1.085M simulated mean vs. $1.084M analytical expectation), confirming 0% risk of portfolio-level loss (5% CVaR at $1.058M).
-* **Modern R & Tidyverse Stack:** Clean, reproducible pipeline built with modern R (`dplyr`, `purrr`, `yardstick`, `scales`, and `ggplot2`).
+```text
+  Customer Portfolio Data (30,000 accounts)
+                    │
+                    ▼
+  ┌──────────────────────────────────────────────┐
+  │ 1. Eligibility & Risk Segmentation Engine    │
+  │    • 60-day cycle eligibility enforcement    │
+  │    • Performance-based credit tier mapping   │
+  └──────────────────────┬───────────────────────┘
+                         │
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 2. Dynamic Decision & Capital Budgeting      │
+  │    • Expected customer repayment tracking    │
+  │    • Portfolio exposure capacity balancing   │
+  │    • Granular loan-size cutoff generation    │
+  └──────────────────────┬───────────────────────┘
+                         │
+                         ▼
+  ┌──────────────────────────────────────────────┐
+  │ 3. Stress-Testing & Robustness Validation    │
+  │    • Macro scenario analysis (Base/Stress)   │
+  │    • 1,000-run Monte Carlo simulation        │
+  └──────────────────────────────────────────────┘
+```
+
+1. **Eligibility & Account Segmentation:** Enforces 60-day cooldown periods between increases and categorizes accounts based on historical payment behavior.
+2. **Capital-Constrained Allocation:** Solves the optimal decision rules across all customer accounts simultaneously so that the portfolio's total exposure hits the exact capital budget without exceeding it.
+3. **Macroeconomic Robustness:** Simulates behavior across changing market conditions (inflation, interest rates, and unemployment shocks), verifying that credit rules contract automatically during economic stress to safeguard capital.
+4. **Simulation Validation:** A 1,000-iteration Monte Carlo simulation confirms the stability of the policy ($1.085M simulated average vs. $1.084M projected), with 0% probability of portfolio loss.
 
 ---
 
@@ -59,21 +93,22 @@ By framing credit line management as a multi-period decision problem under a por
 
 ```text
 ├── data/
-│   └── loan_limit_increases.csv     # 30,000 customer portfolio records
+│   ├── loan_limit_increases.csv        # 30,000 customer portfolio records
+│   └── loan_limit_increases_10k.csv    # 10,000 record test sample
 ├── figures/
-│   ├── r_dashboard.png              # 6-panel executive summary dashboard
-│   ├── r_01_strategy_npv.png        # Strategy NPV comparison chart
-│   ├── r_02_policy_map.png          # Offer decision rules across loan sizes
-│   ├── r_03_frontier.png            # Capital utilization vs. net return
-│   ├── r_04_monte_carlo.png         # Simulation distribution (1,000 runs)
-│   ├── r_05_sensitivity.png         # Stress grid across default & recovery rates
-│   └── r_06_breakeven.png           # Unit economics break-even analysis
+│   ├── r_dashboard.png                 # 6-panel strategy dashboard
+│   ├── r_01_strategy_npv.png           # Strategy NPV comparison chart
+│   ├── r_02_policy_map.png             # Offer decision rules across loan sizes
+│   ├── r_03_frontier.png               # Capital utilization vs. net return
+│   ├── r_04_monte_carlo.png            # Simulation distribution (1,000 runs)
+│   ├── r_05_sensitivity.png            # Stress grid across default & recovery rates
+│   └── r_06_breakeven.png              # Unit economics break-even analysis
 ├── outputs/
-│   ├── strategy_results.csv         # Summary metrics across all tested strategies
-│   ├── validation.csv               # Analytical vs. simulation verification table
-│   ├── sensitivity.csv              # Scenario stress testing results
+│   ├── strategy_results.csv            # Summary metrics across all tested strategies
+│   ├── validation.csv                  # Analytical vs. simulation verification table
+│   ├── sensitivity.csv                 # Scenario stress testing results
 │   └── policy_summary_by_tier_loan.csv # Granular offer allocation by loan bucket
-├── loan_limit_optimization.ipynb    # Complete reproducible R analysis notebook
+├── loan_limit_optimization.ipynb       # Reproducible R analysis notebook
 └── README.md
 ```
 
@@ -83,14 +118,26 @@ By framing credit line management as a multi-period decision problem under a por
 
 ### Prerequisites
 
-* R (>= 4.2)
-* Jupyter Notebook with the [Ark R kernel](https://github.com/posit-dev/ark) or standard IRkernel
+* **R (>= 4.2)**
+* **Jupyter Notebook** with the [Ark R kernel](https://github.com/posit-dev/ark) or `IRkernel`
 * R packages: `tidyverse`, `scales`, `gridExtra`, `matrixStats`, `knitr`
+
+To install the required R packages:
+
+```r
+install.packages(c("tidyverse", "scales", "gridExtra", "matrixStats", "knitr"))
+```
 
 ### Running the Notebook
 
-To execute the notebook and regenerate all results, figures, and CSV outputs:
+To execute the notebook and regenerate all figures, metrics, and summary tables:
 
 ```bash
 jupyter nbconvert --to notebook --execute --inplace loan_limit_optimization.ipynb
 ```
+
+---
+
+## License
+
+This project is licensed under the MIT License.

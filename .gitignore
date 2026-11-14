@@ -1,20 +1,11 @@
-# Assessment requirements & archives
-*.pdf
-*.zip
-*.xlsx
-
-# Internal workspace configs & reference clones
-.agents/
-.idea/
-AGENTS.md
-REPORT.md
-ref_*/
-
-# OS & Environment artifacts
+# History & workspace files
 .Rhistory
 .RData
 .Rproj.user/
+
+# Jupyter
 .ipynb_checkpoints/
-__pycache__/
-*.tmp
+
+# System / IDE
 .DS_Store
+*.tmp
