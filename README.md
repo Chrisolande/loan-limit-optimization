@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License" />
 </p>
 
-An end-to-end credit risk and limit strategy engine for consumer lending portfolios. This repository implements a data-driven decision system to optimize credit line increase offers across 30,000 customer accounts over a 1-year horizon—maximizing net revenue while adhering to portfolio capital limits and controlling for default risk.
+An end-to-end credit risk and limit strategy engine for consumer lending portfolios. This repository implements a data-driven decision system to optimize credit line increase offers across 30,000 customer accounts over a 1-year horizon to maximize net revenue while adhering to portfolio capital limits and controlling for default risk.
 
 ---
 
@@ -18,10 +18,10 @@ Extending credit limit increases without risk targeting leads to heavy default l
 
 This project implements a multi-cycle decision engine that balances revenue, default risk, and portfolio capital capacity:
 
-* **Portfolio Net Present Value:** **+$1,084,533** ($36.15 per customer).
+* **Portfolio Net Present Value:** **+$1,114,736** ($37.16 per customer).
 * **Capital Efficiency:** **100%** utilization of the $24.77M capital cap with zero budget breaches.
-* **Controlled Credit Risk:** Lowers the default rate per accepted increase to **4.79%** (compared to 5.70% under blanket approvals).
-* **Over +110% Lift:** Generates more than double the net profit of a conservative Prime-Only policy ($513K).
+* **Controlled Credit Risk:** Lowers the default rate per accepted increase to **4.99%** (compared to 6.05% under blanket approvals).
+* **+87% Lift:** Near double the net profit of a conservative Prime-Only policy ($595K).
 
 ---
 
@@ -29,16 +29,16 @@ This project implements a multi-cycle decision engine that balances revenue, def
 
 | Strategy | Portfolio NPV | Gross Revenue | Credit Losses | Capital Cap Usage | Cap Status | Default Rate / Accepted |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **No Increase** | $0 | $0 | $0 | 0.0% | Compliant | — |
-| **Prime Only** | $513,224 | $597,721 | $84,497 | 44.8% | Compliant | 1.5% |
-| **Offer All** | $1,043,611 | $2,179,254 | $1,135,643 | 162.1% | **Breached (+62%)** | 5.7% |
-| **Optimal Policy** | **$1,084,533** | **$1,611,601** | **$527,068** | **100.0%** | **Compliant** | **4.8%** |
-| *Tiered Step Sizing* | *$1,144,109* | *$1,537,865* | *$393,756* | *100.0%* | *Compliant* | *4.7%* |
+| **No Increase** | $0 | $0 | $0 | 0.0% | Compliant | N/A |
+| **Prime Only** | $594,911 | $692,677 | $97,767 | 51.9% | Compliant | 1.5% |
+| **Offer All** | $1,066,904 | $2,400,604 | $1,333,700 | 178.4% | **Breached (+78%)** | 6.1% |
+| **Optimal Policy** | **$1,114,736** | **$1,645,996** | **$531,260** | **100.0%** | **Compliant** | **5.0%** |
+| *Tiered Step Sizing* | *$1,159,294* | *$1,539,925* | *$380,631* | *100.0%* | *Compliant* | *4.9%* |
 
 ### Key Strategy Insights
 
-1. **The Blanket Approval Pitfall:** Offering credit increases to every customer generates high gross revenue ($2.18M), but severe defaults on large, lower-tier loans consume over $1.13M in credit losses while exceeding the capital budget by 62%.
-2. **The Ultra-Conservative Flaw:** Limiting offers strictly to prime customers achieves low defaults (1.5%), but wastes 55% of available lending capacity, forfeiting over $570,000 in net profit.
+1. **The Blanket Approval Pitfall:** Offering credit increases to every customer generates high gross revenue ($2.40M), but severe defaults on large, lower-tier loans consume over $1.33M in credit losses while exceeding the capital budget by 78%.
+2. **The Ultra-Conservative Flaw:** Limiting offers strictly to prime customers achieves low defaults (1.5%), but leaves 48% of available lending capacity unused, forfeiting over $519,000 in net profit.
 3. **The Optimal Policy:** Offers are segmented by both risk tier and account loan size:
    * **Prime Accounts:** Eligible for increases across all loan sizes ($500 to $5,000).
    * **Near-Prime Accounts:** Fully eligible up to $3,500; selectively offered between $3,500 and $4,000; cut off above $4,000.
@@ -50,7 +50,7 @@ This project implements a multi-cycle decision engine that balances revenue, def
 
 ![Credit Limit Optimization Dashboard](figures/r_dashboard.png)
 
-*The dashboard displays the strategy comparisons, loan-size cutoff policy rules, risk-return capital frontiers, 1,000-run simulation distributions, sensitivity stress tests, and unit break-even recovery economics.*
+*The dashboard displays the strategy comparisons, loan-size cutoff policy rules, capital allocation curves, 1,000-run simulation distributions, sensitivity stress tests, and unit break-even recovery economics.*
 
 ---
 
@@ -99,7 +99,7 @@ This project implements a multi-cycle decision engine that balances revenue, def
 │   ├── r_dashboard.png                 # 6-panel strategy dashboard
 │   ├── r_01_strategy_npv.png           # Strategy NPV comparison chart
 │   ├── r_02_policy_map.png             # Offer decision rules across loan sizes
-│   ├── r_03_frontier.png               # Capital utilization vs. net return
+│   ├── r_03_frontier.png               # Capital utilization vs. net return curve
 │   ├── r_04_monte_carlo.png            # Simulation distribution (1,000 runs)
 │   ├── r_05_sensitivity.png            # Stress grid across default & recovery rates
 │   └── r_06_breakeven.png              # Unit economics break-even analysis

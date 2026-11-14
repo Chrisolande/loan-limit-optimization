@@ -1,5 +1,4 @@
-check,analytic_dp,analytic_forward,rel_diff,analytic,mc_mean,mc_se,z,mc_p05,mc_cvar_05,mc_p95,mc_share_negative
-Backward DP value vs forward evaluation (lambda = 0),1129712.899992872,1129712.8999928723,2.060971806689458e-16,NA,NA,NA,NA,NA,NA,NA,NA
-Constrained DP Lagrangian dual vs forward NPV (lambda = lambda*),1084533.4640044062,1084533.4640044065,2.1468276579884642e-16,NA,NA,NA,NA,NA,NA,NA,NA
-Stochastic macro MDP backward vs forward (lambda = 0),1110196.472812398,1110196.472812398,0,NA,NA,NA,NA,NA,NA,NA,NA
-"Monte Carlo (1000 reps) vs analytic, dp_constrained, base",NA,NA,NA,1084533.4640044065,1085488.7101840742,447.3818170051147,2.1351922303468274,1062700.1644298872,1058046.778662931,1108828.0371840422,0
+check,analytic_dp,analytic_forward,rel_diff
+Backward DP value vs forward evaluation (lambda = 0),1102981.9628580378,1156621.5369129558,0.04863141543668366
+Constrained DP dual vs forward evaluation (lambda = lambda*),1067210.1455103785,1409793.3013654475,0.321008151296419
+Stochastic macro MDP backward vs forward (lambda = 0),1105483.9023723118,1160243.2301014333,0.049534260618007045
